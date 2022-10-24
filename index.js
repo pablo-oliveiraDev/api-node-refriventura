@@ -1,7 +1,7 @@
 const express = require('express');
 const cors = require('cors');
-const  Users = require('./dataBases/users');
-const  Serv = require('./dataBases/users');
+const Users = require('./dataBases/users');
+const Serv = require('./dataBases/users');
 
 
 const app = express();
@@ -11,13 +11,23 @@ app.use(cors());
 app.post(`/users`, async (req, res) => {
 
     const data = req.body;
-    await Users.Users.add(data);
-    try {
-        res.status(201).send({ msg: 'Usuario cadastrado com sucesso!' });
-    } catch (error) {
-        res.send({ msg: 'Erro ao cadastrar usuario!' })
-    }
 
+    const snapshot = await Users.Users.get();
+    const usuarios = snapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
+    const usuario = usuarios.filter((u) => {
+        return u.email === data.email;
+    });
+    
+    if (usuario === undefined || usuario.length === 0) {
+        await Users.Users.add(data);
+        try {
+            res.status(201).send({ msg: 'Usuario cadastrado com sucesso!' });
+        } catch (error) {
+            res.send({ msg: 'Erro ao cadastrar usuario!' })
+        }
+    } else {
+        res.send({ msg: 'email ja cadastrado' });
+    }
 
 });
 
@@ -119,6 +129,23 @@ app.delete('/servicos/:id', async (req, res) => {
     await Serv.Serv.doc(id).delete();
 
     res.send({ msg: "Servico deletado com sucesso!" })
+});
+
+//login
+
+app.get('/logeed', async (req, res) => {
+
+    const email = req.query.user;
+    const senha = req.query.password;
+    
+    const snapshot = await Users.Users.get();
+    const usuarios = snapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
+    const usuario = usuarios.filter((u) => {
+        return u.email === email && u.senha === senha;
+
+    });
+    res.send(usuario);
+
 });
 
 
