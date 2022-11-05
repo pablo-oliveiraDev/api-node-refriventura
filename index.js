@@ -17,7 +17,7 @@ app.post(`/users`, async (req, res) => {
     const usuario = usuarios.filter((u) => {
         return u.email === data.email;
     });
-    
+
     if (usuario === undefined || usuario.length === 0) {
         await Users.Users.add(data);
         try {
@@ -137,19 +137,19 @@ app.get('/logeed', async (req, res) => {
 
     const email = req.query.user;
     const senha = req.query.password;
-    
+
     const snapshot = await Users.Users.get();
     const usuarios = snapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
     const usuario = usuarios.filter((u) => {
         return u.email === email && u.senha === senha;
 
     });
-    if(usuario!==''){
+    if (usuario !== null) {
         res.send(usuario);
-    }else{
-        res.send({msg:'Emal e senha nao econtrados!😥'});
+    } else {
+        res.send({ msg: 'Emal e senha nao econtrados!😥' });
     }
-    
+
 
 });
 
