@@ -143,13 +143,9 @@ app.get('/logeed', async (req, res) => {
     const usuario = usuarios.filter((u) => {
         return u.email === email && u.senha === senha;
 
-    });
-    if (usuario !== null) {
+    });   
         res.send(usuario);
-    } else {
-        res.send({ msg: 'Emal e senha nao econtrados!😥' });
-    }
-
+   
 
 });
 
