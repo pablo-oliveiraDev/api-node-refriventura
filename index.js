@@ -144,7 +144,12 @@ app.get('/logeed', async (req, res) => {
         return u.email === email && u.senha === senha;
 
     });
-    res.send(usuario);
+    if(usuario){
+        res.send(usuario);
+    }else{
+        res.send({msg:'Emal e senha nao econtrados!😥'});
+    }
+    
 
 });
 
