@@ -40,7 +40,7 @@ app.get(`/users`, async (req, res) => {
     try {
         res.send(usuarios);
     } catch (error) {
-        res.send(error);
+        res.send(error)
     }
 
 
