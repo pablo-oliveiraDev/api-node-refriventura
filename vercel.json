@@ -1,0 +1,15 @@
+{
+    "name": "api-ventura-refri",
+    "version": 2,
+    "public": true,
+    "build": {
+        "src": "api-ventura-refri/index.js",
+        "use": "@vercel/node"
+    },
+    "routes": [
+        {
+            "src": "/(.*)",
+            "dest": "api-ventura-refri/index.js",
+        }
+    ]
+}
