@@ -141,11 +141,12 @@ app.get('/logeed', async (req, res) => {
     const snapshot = await Users.Users.get();
     const usuarios = snapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
     const usuario = usuarios.filter((u) => {
-        return u.email === email && u.senha === senha;
+        return email === u.email && senha === u.password;
 
-    });   
-        res.send(usuario);
+    });
    
+    res.send(usuario);
+
 
 });
 
