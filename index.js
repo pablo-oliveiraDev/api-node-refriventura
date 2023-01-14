@@ -107,12 +107,12 @@ app.get(`/servicos`, async (req, res) => {
 app.get('/servicos/:id', async (req, res) => {
     const id = req.params.id;
     const snapshot = await Serv.Serv.get();
-    const usuarios = snapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
+    let usuarios = snapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
     const servicos = servicos.filter((u) => {
         return u.id == id;
 
     });
-    res.send(usuario);
+    res.send(usuarios);
 
 });
 app.put('/servicos/:id', async (req, res) => {
