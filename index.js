@@ -64,7 +64,6 @@ app.put('/users/:id', async (req, res) => {
 
     res.send({ msg: "Usuario atualizado com sucesso!" });
 });
-
 app.delete('/users/:id', async (req, res) => {
 
     const id = req.params.id;
@@ -72,10 +71,7 @@ app.delete('/users/:id', async (req, res) => {
 
     res.send({ msg: "Usuário deletado com sucesso!" })
 });
-
 //servicos
-
-
 app.post(`/servicos`, async (req, res) => {
 
     const data = req.body;
@@ -83,14 +79,9 @@ app.post(`/servicos`, async (req, res) => {
     try {
         res.status(201).send({ msg: 'Servico cadastrado com sucesso!' });
     } catch (error) {
-        res.send({ msg: 'Erro ao cadastrar serviço!' })
+        res.send({ msg: 'Erro ao cadastrar serviço!' });
     }
-
-
 });
-
-
-
 app.get(`/servicos`, async (req, res) => {
 
     const snapshot = await Serv.Serv.get();
@@ -103,23 +94,21 @@ app.get(`/servicos`, async (req, res) => {
 
 
 });
-
 app.get('/servicos/:id', async (req, res) => {
     const id = req.params.id;
     const snapshot = await Serv.Serv.get();
-    let usuarios = snapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
-    const servicos = servicos.filter((u) => {
-        return u.id == id;
+    let servicos = snapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
+    const servico = servicos.filter((u) => {
+        return u.idCliente === id;
 
     });
-    res.send(usuarios);
+    res.status(201).json(servico);
 
 });
 app.put('/servicos/:id', async (req, res) => {
 
     const id = req.params.id;
     await Serv.Serv.doc(id).update(req.body);
-
     res.send({ msg: "serviços atualizado com sucesso!" });
 });
 
@@ -130,9 +119,7 @@ app.delete('/servicos/:id', async (req, res) => {
 
     res.send({ msg: "Servico deletado com sucesso!" })
 });
-
 //login
-
 app.get('/logeed', async (req, res) => {
 
     const email = req.query.user;
@@ -148,10 +135,6 @@ app.get('/logeed', async (req, res) => {
    
 
 });
-
-
-
-
 app.listen(process.env.PORT || 5080, () => {
     console.log('Voce esta conectado em http://localhost:5080')
 });
