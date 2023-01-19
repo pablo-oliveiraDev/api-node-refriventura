@@ -130,9 +130,9 @@ app.get('/logeed', async (req, res) => {
     const usuario = usuarios.filter((u) => {
         return u.email === email && u.password === senha;
 
-    });   
-        res.send(usuario);
-   
+    });
+    res.send(usuario);
+
 
 });
 app.listen(process.env.PORT || 5080, () => {
