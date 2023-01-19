@@ -105,11 +105,16 @@ app.get('/servicos/:id', async (req, res) => {
     res.status(201).json(servico);
 
 });
-app.put('/servicos/:id', async (req, res) => {
-
+app.patch('/servicos/:id', async (req, res) => {
+    const data =req.body;
     const id = req.params.id;
-    await Serv.Serv.doc(id).update(req.body);
-    res.send({ msg: "serviços atualizado com sucesso!" });
+    await Serv.Serv.doc(id).update(data)
+        .then((res) => {
+            res.status(200).send({ message: "serviços atualizado com sucesso!" });
+        })
+        .catch((error)=>{
+            res.json({message: error.message});
+        });
 });
 
 app.delete('/servicos/:id', async (req, res) => {
