@@ -24,7 +24,7 @@ app.post(`/users`, async (req, res) => {
         try {
             res.status(201).send({ msg: 'Usuario cadastrado com sucesso!' });
         } catch (error) {
-            res.send({ msg: 'Erro ao cadastrar usuario!' })
+            res.send({ msg: 'Erro ao cadastrar usuario!' });
         }
     } else {
         res.send({ msg: 'email ja cadastrado' });
