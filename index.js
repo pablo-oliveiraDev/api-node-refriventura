@@ -2,6 +2,7 @@ const express = require('express');
 const cors = require('cors');
 const Users = require('./dataBases/users');
 const Serv = require('./dataBases/users');
+const OrderBy = require('firebase/')
 
 
 const app = express();
@@ -23,7 +24,7 @@ app.post(`/users`, async (req, res) => {
         try {
             res.status(201).send({ msg: 'Usuario cadastrado com sucesso!' });
         } catch (error) {
-            res.send({ msg: 'Erro ao cadastrar usuario!' })
+            res.send({ msg: 'Erro ao cadastrar usuario!' });
         }
     } else {
         res.send({ msg: 'email ja cadastrado' });
@@ -84,7 +85,7 @@ app.post(`/servicos`, async (req, res) => {
 });
 app.get(`/servicos`, async (req, res) => {
 
-    const snapshot = await Serv.Serv.get();
+    const snapshot = await Serv.Serv.orderBy('userName','asc').get();
     const servicos = snapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
     try {
         res.send(servicos);
@@ -96,7 +97,7 @@ app.get(`/servicos`, async (req, res) => {
 });
 app.get('/servicos/:id', async (req, res) => {
     const id = req.params.id;
-    const snapshot = await Serv.Serv.get();
+    const snapshot = await Serv.Serv.orderBy('dataPedido','asc').get();
     let servicos = snapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
     const servico = servicos.filter((u) => {
         return u.idCliente === id;
