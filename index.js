@@ -97,7 +97,7 @@ app.get(`/servicos`, async (req, res) => {
 });
 app.get('/servicos/:id', async (req, res) => {
     const id = req.params.id;
-    const snapshot = await Serv.Serv.orderBy('dataPedido','asc').get();
+    const snapshot = await Serv.Serv.orderBy('dataPedido','desc').get();
     let servicos = snapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
     const servico = servicos.filter((u) => {
         return u.idCliente === id;
