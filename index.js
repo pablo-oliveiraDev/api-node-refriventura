@@ -85,7 +85,7 @@ app.post(`/servicos`, async (req, res) => {
 });
 app.get(`/servicos`, async (req, res) => {
 
-    const snapshot = await Serv.Serv.orderBy('userName','asc').get();
+    const snapshot = await Serv.Serv.orderBy('userName', 'asc').get();
     const servicos = snapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
     try {
         res.send(servicos);
@@ -97,7 +97,7 @@ app.get(`/servicos`, async (req, res) => {
 });
 app.get('/servicos/:id', async (req, res) => {
     const id = req.params.id;
-    const snapshot = await Serv.Serv.orderBy('dataPedido','desc').get();
+    const snapshot = await Serv.Serv.orderBy('dataPedido', 'desc').get();
     let servicos = snapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
     const servico = servicos.filter((u) => {
         return u.idCliente === id;
@@ -106,15 +106,26 @@ app.get('/servicos/:id', async (req, res) => {
     res.status(201).json(servico);
 
 });
+app.get('/servicos/load/:id', async (req, res) => {
+    const id = req.params.id;
+    const snapshot = await Serv.Serv.orderBy('dataPedido', 'desc').get();
+    let servicos = snapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
+    const servico = servicos.filter((u) => {
+        return id === u.id;
+
+    });
+    res.status(201).json(servico);
+
+});
 app.patch('/servicos/:id', async (req, res) => {
-    const data =req.body;
+    const data = req.body;
     const id = req.params.id;
     await Serv.Serv.doc(id).update(data)
         .then((res) => {
             res.status(200).send({ message: "serviços atualizado com sucesso!" });
         })
-        .catch((error)=>{
-            res.json({message: error.message});
+        .catch((error) => {
+            res.json({ message: error.message });
         });
 });
 
